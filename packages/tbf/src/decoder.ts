@@ -1,7 +1,14 @@
 import type { Document, Value } from "../../shared/src/types";
-import { FORMAT_VERSION, DEFAULT_LIMITS } from "../../shared/src/constants";
+import {
+  FORMAT_VERSION,
+  DEFAULT_LIMITS
+} from "../../shared/src/constants";
 import { validateDocument } from "../../shared/src/validation";
 import { TBFError } from "../../shared/src/errors";
+import {
+  isTypedValue,
+  markPlainObject
+} from "../../shared/src/type-guards";
 import { readTBFHeader, TBF_HEADER_LENGTH } from "./header";
 import { ByteReader } from "./reader";
 
@@ -89,7 +96,9 @@ function readValue(reader: ByteReader, depth = 0): Value {
         result[key] = readValue(reader, depth + 1);
       }
 
-      return result;
+      return isTypedValue(result)
+        ? markPlainObject(result)
+        : result;
     }
 
     case TAG.binary: {
@@ -147,7 +156,7 @@ function readValue(reader: ByteReader, depth = 0): Value {
         typeof fields !== "object" ||
         fields === null ||
         Array.isArray(fields) ||
-        "kind" in fields
+        fields instanceof Uint8Array
       ) {
         throw new TBFError("Invalid entity data");
       }
@@ -156,12 +165,14 @@ function readValue(reader: ByteReader, depth = 0): Value {
         kind: "entity",
         id,
         ...(type ? { type } : {}),
-        fields
+        fields: fields as Record<string, Value>
       };
     }
 
     default:
-      throw new TBFError(`Unknown TBF value tag: 0x${tag.toString(16)}`);
+      throw new TBFError(
+        `Unknown TBF value tag: 0x${tag.toString(16)}`
+      );
   }
 }
 
