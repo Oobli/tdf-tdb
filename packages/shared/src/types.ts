@@ -5,40 +5,48 @@ export type Primitive =
   | number
   | string;
 
-export type BinaryData = Uint8Array;
-
-export interface EntityReference {
-  $ref: string;
+export interface BinaryValue {
+  readonly kind: "binary";
+  readonly value: Uint8Array;
 }
 
-export interface Entity {
-  $id: string;
-  $type?: string;
-  [key: string]: Value | undefined;
+export interface DecimalValue {
+  readonly kind: "decimal";
+  readonly value: string;
 }
 
-export interface Timestamp {
-  $timestamp: number;
+export interface TimestampValue {
+  readonly kind: "timestamp";
+  readonly value: number;
 }
 
-export interface Decimal {
-  $decimal: string;
+export interface ReferenceValue {
+  readonly kind: "reference";
+  readonly id: string;
 }
 
-export interface ValueObject {
-  [key: string]: Value;
+export interface EntityValue {
+  readonly kind: "entity";
+  readonly id: string;
+  readonly type?: string;
+  readonly fields: Record<string, Value>;
+}
+
+export interface ObjectValue {
+  readonly [key: string]: Value;
 }
 
 export type Value =
   | Primitive
-  | BinaryData
-  | EntityReference
-  | Timestamp
-  | Decimal
+  | BinaryValue
+  | DecimalValue
+  | TimestampValue
+  | ReferenceValue
+  | EntityValue
   | Value[]
-  | ValueObject;
+  | ObjectValue;
 
 export interface Document {
-  version: string;
-  root: Value;
+  readonly version: string;
+  readonly root: Value;
 }
