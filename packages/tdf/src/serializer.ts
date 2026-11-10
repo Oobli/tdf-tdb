@@ -1,5 +1,9 @@
 import type { Document, Value } from "../../shared/src/types";
 import { validateDocument } from "../../shared/src/validation";
+import {
+  isMarkedPlainObject,
+  isTypedValue
+} from "../../shared/src/type-guards";
 
 function encodeBase64(bytes: Uint8Array): string {
   const alphabet =
@@ -49,44 +53,37 @@ function serializeValue(value: Value, depth: number): string {
     return `[\n${items.join(",\n")}\n${indent}]`;
   }
 
-  const tagged = value as Record<string, unknown>;
+  if (value instanceof Uint8Array) {
+    return `@binary(${JSON.stringify(encodeBase64(value))})`;
+  }
 
-  if (typeof tagged.kind === "string") {
-    switch (tagged.kind) {
+  if (isTypedValue(value)) {
+    switch (value.kind) {
       case "binary":
         return `@binary(${JSON.stringify(
-          encodeBase64(tagged.value as Uint8Array)
+          encodeBase64(value.value)
         )})`;
 
       case "decimal":
-        return `@decimal(${JSON.stringify(tagged.value)})`;
+        return `@decimal(${JSON.stringify(value.value)})`;
 
       case "timestamp":
-        return `@timestamp(${tagged.value})`;
+        return `@timestamp(${value.value})`;
 
       case "reference":
-        return `@ref(${JSON.stringify(tagged.id)})`;
+        return `@ref(${JSON.stringify(value.id)})`;
 
       case "entity": {
-        const type = tagged.type ?? "";
-        const fields = serializeValue(
-          tagged.fields as Value,
-          depth
-        );
+        const fields = serializeValue(value.fields, depth);
 
-        return `@entity(${JSON.stringify(tagged.id)}, ${JSON.stringify(
-          type
+        return `@entity(${JSON.stringify(value.id)}, ${JSON.stringify(
+          value.type ?? ""
         )}, ${fields})`;
       }
-
-      default:
-        throw new Error(`Unsupported typed value: ${tagged.kind}`);
     }
   }
 
   const entries = Object.entries(value);
-
-  if (entries.length === 0) return "{}";
 
   const properties = entries.map(
     ([key, item]) =>
@@ -96,7 +93,13 @@ function serializeValue(value: Value, depth: number): string {
       )}`
   );
 
-  return `{\n${properties.join(",\n")}\n${indent}}`;
+  const object = entries.length === 0
+    ? "{}"
+    : `{\n${properties.join(",\n")}\n${indent}}`;
+
+  return isMarkedPlainObject(value)
+    ? `@object(${object})`
+    : object;
 }
 
 export function stringifyTDF(document: Document): string {
