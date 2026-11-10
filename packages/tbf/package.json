@@ -1,0 +1,11 @@
+{
+  "name": "@tdf/tbf",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@tdf/shared": "workspace:*"
+  }
+}
