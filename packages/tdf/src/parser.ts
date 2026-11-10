@@ -1,6 +1,7 @@
 import type { Document, Value } from "../../shared/src/types";
 import { FORMAT_VERSION } from "../../shared/src/constants";
 import { ParseError } from "../../shared/src/errors";
+import { markPlainObject } from "../../shared/src/type-guards";
 import { Lexer } from "./lexer";
 import type { Token } from "./tokens";
 
@@ -169,6 +170,27 @@ export class Parser {
     this.expect("leftParen");
 
     switch (type) {
+      case "object": {
+        const value = this.parseValue();
+        this.expect("rightParen");
+
+        if (
+          typeof value !== "object" ||
+          value === null ||
+          Array.isArray(value) ||
+          value instanceof Uint8Array ||
+          "kind" in value
+        ) {
+          throw new ParseError(
+            "@object requires an ordinary object",
+            this.previous().offset
+          );
+        }
+
+        return markPlainObject(value as Record<string, unknown>) as
+          Record<string, Value>;
+      }
+
       case "decimal": {
         const value = this.expect("string").value;
         this.expect("rightParen");
@@ -242,7 +264,7 @@ export class Parser {
         return {
           kind: "entity",
           id,
-          type: entityType || undefined,
+          ...(entityType ? { type: entityType } : {}),
           fields
         };
       }
