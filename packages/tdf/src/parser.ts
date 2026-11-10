@@ -4,6 +4,7 @@ import { ParseError } from "../../shared/src/errors";
 import { markPlainObject } from "../../shared/src/type-guards";
 import { Lexer } from "./lexer";
 import type { Token } from "./tokens";
+import { isTypedValue, markPlainObject } from "../../shared/src/type-guards";
 
 export class Parser {
   private tokens: Token[];
