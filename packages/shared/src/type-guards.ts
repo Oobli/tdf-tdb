@@ -19,6 +19,10 @@ type TaggedValue =
 export function markPlainObject<T extends Record<string, unknown>>(
   value: T
 ): T {
+  if (isMarkedPlainObject(value)) {
+    return value;
+  }
+
   Object.defineProperty(value, PLAIN_OBJECT, {
     value: true,
     enumerable: false,
