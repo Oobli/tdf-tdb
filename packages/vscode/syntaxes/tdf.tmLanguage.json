@@ -1,0 +1,121 @@
+{
+  "scopeName": "source.tdf",
+  "name": "TDF",
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#header"
+    },
+    {
+      "include": "#typed-values"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#constants"
+    },
+    {
+      "include": "#keys"
+    },
+    {
+      "include": "#operators"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.number-sign.tdf",
+          "match": "#.*$"
+        }
+      ]
+    },
+    "header": {
+      "patterns": [
+        {
+          "name": "keyword.control.header.tdf",
+          "match": "\\btdf\\b"
+        },
+        {
+          "name": "constant.numeric.version.tdf",
+          "match": "(?<=\\btdf\\s)\\d+\\.\\d+"
+        }
+      ]
+    },
+    "typed-values": {
+      "patterns": [
+        {
+          "name": "support.function.constructor.tdf",
+          "match": "@(binary|decimal|timestamp|ref|entity|object)\\b"
+        }
+      ]
+    },
+    "strings": {
+      "name": "string.quoted.double.tdf",
+      "begin": "\"",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.tdf"
+        }
+      },
+      "end": "\"",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.tdf"
+        }
+      },
+      "patterns": [
+        {
+          "name": "constant.character.escape.tdf",
+          "match": "\\\\(?:[\"\\\\/bfnrt]|u[0-9a-fA-F]{4})"
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.tdf",
+          "match": "-?\\b\\d+(?:\\.\\d+)?(?:[eE][+-]?\\d+)?\\b"
+        }
+      ]
+    },
+    "constants": {
+      "patterns": [
+        {
+          "name": "constant.language.tdf",
+          "match": "\\b(?:true|false|null)\\b"
+        }
+      ]
+    },
+    "keys": {
+      "patterns": [
+        {
+          "name": "variable.other.property.tdf",
+          "match": "\\b[A-Za-z_][A-Za-z0-9_]*(?=\\s*:)"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "punctuation.separator.key-value.tdf",
+          "match": ":"
+        },
+        {
+          "name": "punctuation.separator.comma.tdf",
+          "match": ","
+        },
+        {
+          "name": "punctuation.section.braces.tdf",
+          "match": "[{}\\[\\]()]"
+        }
+      ]
+    }
+  }
+}
