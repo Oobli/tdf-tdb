@@ -1,52 +1,60 @@
+export type BinaryValue = {
+  kind: "binary";
+  value: Uint8Array;
+};
 
-export type Primitive =
+export type DecimalValue = {
+  kind: "decimal";
+  value: string;
+};
+
+export type TimestampValue = {
+  kind: "timestamp";
+  value: number;
+};
+
+export type ReferenceValue = {
+  kind: "reference";
+  id: string;
+};
+
+export type EntityValue = {
+  kind: "entity";
+  id: string;
+  type?: string;
+  fields: Record<string, Value>;
+};
+
+export type TypedValue =
+  | BinaryValue
+  | DecimalValue
+  | TimestampValue
+  | ReferenceValue
+  | EntityValue;
+
+export type PrimitiveValue =
   | null
   | boolean
   | number
   | string;
 
-export interface BinaryValue {
-  readonly kind: "binary";
-  readonly value: Uint8Array;
-}
-
-export interface DecimalValue {
-  readonly kind: "decimal";
-  readonly value: string;
-}
-
-export interface TimestampValue {
-  readonly kind: "timestamp";
-  readonly value: number;
-}
-
-export interface ReferenceValue {
-  readonly kind: "reference";
-  readonly id: string;
-}
-
-export interface EntityValue {
-  readonly kind: "entity";
-  readonly id: string;
-  readonly type?: string;
-  readonly fields: Record<string, Value>;
-}
-
-export interface ObjectValue {
-  readonly [key: string]: Value;
-}
-
 export type Value =
-  | Primitive
-  | BinaryValue
-  | DecimalValue
-  | TimestampValue
-  | ReferenceValue
-  | EntityValue
+  | PrimitiveValue
+  | TypedValue
   | Value[]
-  | ObjectValue;
+  | { [key: string]: Value };
 
 export interface Document {
-  readonly version: string;
-  readonly root: Value;
+  version: string;
+  root: Value;
+}
+
+export interface ValidationIssue {
+  path: string;
+  message: string;
+}
+
+export interface ValidationResult {
+  valid: boolean;
+  issues: ValidationIssue[];
 }
