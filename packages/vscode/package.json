@@ -1,0 +1,63 @@
+{
+  "name": "tdf-language-support",
+  "displayName": "TDF & TBF Language Support",
+  "description": "Syntax highlighting and language support for TDF and TBF files.",
+  "version": "1.0.0",
+  "publisher": "fahadmalik",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:tdf",
+    "onCommand:tdf.inspectTBF"
+  ],
+  "main": "./dist/extension.js",
+  "files": [
+    "dist/**",
+    "syntaxes/**",
+    "language-configuration.json"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "tdf",
+        "aliases": ["TDF", "Typed Data Format"],
+        "extensions": [".tdf"],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "tbf",
+        "aliases": ["TBF", "Typed Binary Format"],
+        "extensions": [".tbf"]
+      }
+    ],
+    "grammars": [
+      {
+        "language": "tdf",
+        "scopeName": "source.tdf",
+        "path": "./syntaxes/tdf.tmLanguage.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "tdf.inspectTBF",
+        "title": "TDF: Inspect TBF Header"
+      }
+    ]
+  },
+  "scripts": {
+    "build": "tsc -p .",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}
