@@ -1,13 +1,27 @@
-import type { Document, Value } from "./types";
+import type {
+  BinaryValue,
+  DecimalValue,
+  Document,
+  EntityValue,
+  ReferenceValue,
+  TimestampValue,
+  Value
+} from "./types";
+
 import {
   FORMAT_VERSION,
   DEFAULT_LIMITS
 } from "./constants";
+
 import { ValidationError } from "./errors";
-import {
-  isMarkedPlainObject,
-  isTypedValue
-} from "./type-guards";
+import { isTypedValue } from "./type-guards";
+
+type TypedValue =
+  | BinaryValue
+  | DecimalValue
+  | TimestampValue
+  | ReferenceValue
+  | EntityValue;
 
 export function validateDocument(document: Document): void {
   if (!document || typeof document !== "object") {
@@ -63,25 +77,21 @@ export function validateValue(
     return;
   }
 
-  if (value instanceof Uint8Array) {
-    validateBinary(value);
-    return;
-  }
-
-  if (typeof value !== "object") {
-    throw new ValidationError("Unsupported value type");
-  }
-
   if (isTypedValue(value)) {
     validateTypedValue(value, depth);
     return;
   }
 
-  validateObject(value as Record<string, Value>, depth);
+  if (typeof value === "object" && value !== null) {
+    validateObject(value as Record<string, Value>, depth);
+    return;
+  }
+
+  throw new ValidationError("Unsupported value type");
 }
 
 function validateTypedValue(
-  value: ReturnType<typeof getTypedValue>,
+  value: TypedValue,
   depth: number
 ): void {
   switch (value.kind) {
@@ -122,13 +132,6 @@ function validateTypedValue(
       validateObject(value.fields, depth + 1);
       return;
   }
-}
-
-function getTypedValue(value: Value) {
-  return value as Extract<
-    Value,
-    { kind: string }
-  >;
 }
 
 function validateBinary(value: Uint8Array): void {
