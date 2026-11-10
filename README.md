@@ -40,7 +40,6 @@ Both formats support:
 
 ## Repository structure
 ```text
-.
 ├── docs/
 │   ├── tdf-spec.md
 │   ├── tbf-spec.md
@@ -54,7 +53,8 @@ Both formats support:
 ├── pnpm-workspace.yaml
 ├── tsconfig.base.json
 ├── tsconfig.json
-└── vitest.config.ts```
+└── vitest.config.ts
+```
 
 ## Requirements
 
