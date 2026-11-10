@@ -1,8 +1,9 @@
 import type { Document, Value } from "../../shared/src/types";
 import { validateDocument } from "../../shared/src/validation";
+import { TBFError } from "../../shared/src/errors";
+import { isTypedValue } from "../../shared/src/type-guards";
 import { createTBFHeader } from "./header";
 import { ByteWriter } from "./writer";
-import { TBFError } from "../../shared/src/errors";
 
 const TAG = {
   null: 0x00,
@@ -53,44 +54,42 @@ function encodeValue(writer: ByteWriter, value: Value): void {
     return;
   }
 
-  const tagged = value as Record<string, unknown>;
+  if (value instanceof Uint8Array) {
+    writer.writeByte(TAG.binary);
+    writer.writeUint32(value.length);
+    writer.writeBytes(value);
+    return;
+  }
 
-  if (typeof tagged.kind === "string") {
-    switch (tagged.kind) {
+  if (isTypedValue(value)) {
+    switch (value.kind) {
       case "binary":
         writer.writeByte(TAG.binary);
-        writer.writeUint32(
-          (tagged.value as Uint8Array).length
-        );
-        writer.writeBytes(tagged.value as Uint8Array);
+        writer.writeUint32(value.value.length);
+        writer.writeBytes(value.value);
         return;
 
       case "decimal":
         writer.writeByte(TAG.decimal);
-        writer.writeString(tagged.value as string);
+        writer.writeString(value.value);
         return;
 
       case "timestamp":
         writer.writeByte(TAG.timestamp);
-        writer.writeFloat64(tagged.value as number);
+        writer.writeFloat64(value.value);
         return;
 
       case "reference":
         writer.writeByte(TAG.reference);
-        writer.writeString(tagged.id as string);
+        writer.writeString(value.id);
         return;
 
       case "entity":
         writer.writeByte(TAG.entity);
-        writer.writeString(tagged.id as string);
-        writer.writeString((tagged.type as string) ?? "");
-        encodeValue(writer, tagged.fields as Value);
+        writer.writeString(value.id);
+        writer.writeString(value.type ?? "");
+        encodeValue(writer, value.fields);
         return;
-
-      default:
-        throw new TBFError(
-          `Unsupported typed value: ${tagged.kind}`
-        );
     }
   }
 
