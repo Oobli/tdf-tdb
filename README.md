@@ -92,4 +92,4 @@ The implementation is under development. Compatibility and stability guarantees 
 
 ## License
 
-See ![LICENSE](LICENSE).
+See [LICENSE](LICENSE).
