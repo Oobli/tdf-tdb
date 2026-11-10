@@ -189,7 +189,7 @@ export class Parser {
         }
 
         return markPlainObject(value as Record<string, unknown>) as
-          Record<string, Value>;
+  Record<string, Value>;
       }
 
       case "decimal": {
