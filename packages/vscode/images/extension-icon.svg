@@ -1,0 +1,11 @@
+
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="128" height="128" viewBox="0 0 128 128">
+  <rect width="128" height="128" rx="22" fill="#172D46"/>
+  <path d="M64 23L102 45V83L64 105L26 83V45Z"
+        fill="none" stroke="#65B8FF" stroke-width="5"/>
+  <path d="M43 52L33 64L43 76M85 52L95 64L85 76"
+        fill="none" stroke="#65B8FF" stroke-width="5"/>
+  <path d="M72 48L56 80"
+        stroke="#65D9A5" stroke-width="5"/>
+</svg>
