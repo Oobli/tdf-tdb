@@ -1,0 +1,14 @@
+.vscode/**
+.vscode-test/**
+node_modules/**
+src/**
+test/**
+scripts/**
+*.ts
+tsconfig.json
+vitest.config.ts
+.eslint*
+.prettier*
+.gitignore
+pnpm-lock.yaml
+pnpm-workspace.yaml
