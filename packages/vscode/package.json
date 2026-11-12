@@ -1,11 +1,15 @@
 {
   "name": "tdf-language-support",
   "displayName": "TDF & TBF Language Support",
-  "description": "Syntax highlighting and language support for Typed Data Format and Typed Binary Format.",
+  "description": "Syntax highlighting and language support for TDF and TBF files.",
   "version": "1.0.0",
   "publisher": "spideythedev",
   "license": "MIT",
-  "icon": "images/extension-icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Oobli/tdf-tdb.git",
+    "directory": "packages/vscode"
+  },
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -13,28 +17,14 @@
     "Programming Languages",
     "Other"
   ],
-  "keywords": [
-    "tdf",
-    "tbf",
-    "typed-data",
-    "binary-format",
-    "data-format",
-    "syntax-highlighting"
-  ],
+  "icon": "images/extension-icon.png",
   "main": "./dist/extension.js",
   "files": [
     "dist/**",
     "syntaxes/**",
     "icons/**",
     "images/**",
-    "language-configuration.json",
-    "README.md",
-    "LICENSE",
-    "CHANGELOG.md"
-  ],
-  "activationEvents": [
-    "onLanguage:tdf",
-    "onCommand:tdf.inspectTBF"
+    "language-configuration.json"
   ],
   "contributes": {
     "languages": [
@@ -83,18 +73,13 @@
   },
   "scripts": {
     "build": "tsc -p .",
-    "test": "vitest run --config ../../vitest.config.ts --root ../..",
     "vscode:prepublish": "pnpm run build",
-    "release:check": "node scripts/validate-release.mjs",
-    "changelog:generate": "node scripts/generate-changelog.mjs",
-    "changelog:check": "node scripts/validate-changelog.mjs",
-    "vsix:verify": "node scripts/verify-vsix.mjs",
-    "release:verify": "node scripts/verify-release.mjs"
+    "test": "vitest run"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
     "@types/vscode": "^1.85.0",
     "typescript": "^5.7.0",
-    "vitest": "^3.2.7"
+    "vitest": "^3.0.0"
   }
 }
