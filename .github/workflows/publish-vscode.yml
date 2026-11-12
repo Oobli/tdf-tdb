@@ -1,4 +1,3 @@
-
 name: Publish TDF & TBF Extension
 
 on:
@@ -22,26 +21,38 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
-
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
+
+      - name: Run workspace tests
+        run: pnpm test
 
       - name: Build extension
         run: pnpm --filter tdf-language-support build
 
-      - name: Run tests
-        run: pnpm --filter tdf-language-support test
-
-      - name: Publish extension
+      - name: Validate release files
         working-directory: packages/vscode
-        run: pnpm dlx @vscode/vsce publish --oidc
+        run: pnpm run release:check
+
+      - name: Package VSIX
+        working-directory: packages/vscode
+        run: pnpm dlx @vscode/vsce@4.0.2 package
+
+      - name: Verify VSIX
+        working-directory: packages/vscode
+        run: pnpm run vsix:verify
+
+      - name: Publish to VS Code Marketplace
+        working-directory: packages/vscode
+        run: pnpm dlx @vscode/vsce@4.0.2 publish --oidc
