@@ -1,10 +1,12 @@
+
 {
   "name": "tdf-language-support",
   "displayName": "TDF & TBF Language Support",
-  "description": "Syntax highlighting and language support for TDF and TBF files.",
+  "description": "Syntax highlighting and language support for Typed Data Format and Typed Binary Format.",
   "version": "1.0.0",
-  "publisher": "fahadmalik",
+  "publisher": "spideythedev",
   "license": "MIT",
+  "icon": "images/extension-icon.png",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -12,26 +14,51 @@
     "Programming Languages",
     "Other"
   ],
+  "keywords": [
+    "tdf",
+    "tbf",
+    "typed-data",
+    "binary-format",
+    "data-format",
+    "syntax-highlighting"
+  ],
   "main": "./dist/extension.js",
   "files": [
-  "dist/**",
-  "syntaxes/**",
-  "icons/**",
-  "images/**",
-  "language-configuration.json"
-],
+    "dist/**",
+    "syntaxes/**",
+    "icons/**",
+    "images/**",
+    "language-configuration.json",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "activationEvents": [
+    "onLanguage:tdf",
+    "onCommand:tdf.inspectTBF"
+  ],
   "contributes": {
     "languages": [
       {
         "id": "tdf",
-        "aliases": ["TDF", "Typed Data Format"],
-        "extensions": [".tdf"],
+        "aliases": [
+          "TDF",
+          "Typed Data Format"
+        ],
+        "extensions": [
+          ".tdf"
+        ],
         "configuration": "./language-configuration.json"
       },
       {
         "id": "tbf",
-        "aliases": ["TBF", "Typed Binary Format"],
-        "extensions": [".tbf"]
+        "aliases": [
+          "TBF",
+          "Typed Binary Format"
+        ],
+        "extensions": [
+          ".tbf"
+        ]
       }
     ],
     "grammars": [
@@ -57,11 +84,13 @@
   },
   "scripts": {
     "build": "tsc -p .",
-    "test": "vitest run"
+    "test": "vitest run",
+    "vscode:prepublish": "pnpm run build"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
     "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^3.0.0",
     "typescript": "^5.7.0",
     "vitest": "^3.0.0"
   }
