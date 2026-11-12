@@ -1,3 +1,4 @@
+
 import * as vscode from "vscode";
 import { inspectTBFHeader } from "./tbf";
 
@@ -6,10 +7,9 @@ export function activate(context: vscode.ExtensionContext): void {
     "tdf.inspectTBF",
     async (uri?: vscode.Uri) => {
       const documentUri =
-        uri ??
-        vscode.window.activeTextEditor?.document.uri;
+        uri ?? vscode.window.activeTextEditor?.document.uri;
 
-      if (!documentUri || !documentUri.fsPath.endsWith(".tbf")) {
+      if (!documentUri || !documentUri.path.toLowerCase().endsWith(".tbf")) {
         vscode.window.showWarningMessage(
           "Select a .tbf file first."
         );
