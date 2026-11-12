@@ -19,13 +19,6 @@
   ],
   "icon": "images/extension-icon.png",
   "main": "./dist/extension.js",
-  "files": [
-    "dist/**",
-    "syntaxes/**",
-    "icons/**",
-    "images/**",
-    "language-configuration.json"
-  ],
   "contributes": {
     "languages": [
       {
