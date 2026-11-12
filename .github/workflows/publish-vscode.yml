@@ -1,0 +1,47 @@
+
+name: Publish TDF & TBF Extension
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Build and Publish
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Build extension
+        run: pnpm --filter tdf-language-support build
+
+      - name: Run tests
+        run: pnpm --filter tdf-language-support test
+
+      - name: Publish extension
+        working-directory: packages/vscode
+        run: pnpm dlx @vscode/vsce publish --oidc
