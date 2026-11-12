@@ -1,4 +1,3 @@
-
 {
   "name": "tdf-language-support",
   "displayName": "TDF & TBF Language Support",
@@ -84,20 +83,18 @@
   },
   "scripts": {
     "build": "tsc -p .",
-    "test": "vitest run",
+    "test": "vitest run --config ../../vitest.config.ts --root ../..",
     "vscode:prepublish": "pnpm run build",
     "release:check": "node scripts/validate-release.mjs",
     "changelog:generate": "node scripts/generate-changelog.mjs",
     "changelog:check": "node scripts/validate-changelog.mjs",
     "vsix:verify": "node scripts/verify-vsix.mjs",
     "release:verify": "node scripts/verify-release.mjs"
-
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
     "@types/vscode": "^1.85.0",
-    "@vscode/vsce": "^3.0.0",
     "typescript": "^5.7.0",
-    "vitest": "^3.0.0"
+    "vitest": "^3.2.7"
   }
 }
