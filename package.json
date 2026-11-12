@@ -1,17 +1,19 @@
+
 {
-  "name": "tdf-tbf",
+  "name": "tdf-tdb",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
+  "description": "Typed Data Format and Typed Binary Format",
+  "license": "MIT",
   "packageManager": "pnpm@10.0.0",
   "scripts": {
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "build": "pnpm --filter tdf-language-support build",
+    "test": "pnpm --filter tdf-language-support test",
+    "release:check": "pnpm --filter tdf-language-support release:check",
+    "vscode:build": "pnpm --filter tdf-language-support build",
+    "vscode:test": "pnpm --filter tdf-language-support test"
   },
-  "devDependencies": {
-    "@types/node": "^22.0.0",
-    "typescript": "^5.7.0",
-    "vitest": "^3.0.0"
+  "engines": {
+    "node": ">=20"
   }
 }
