@@ -61,3 +61,16 @@
     "vitest": "^3.0.0"
   }
 }
+
+{
+  "icon": "images/extension-icon.png",
+  "contributes": {
+    "iconThemes": [
+      {
+        "id": "tdf-file-icons",
+        "label": "TDF & TBF File Icons",
+        "path": "./icons/file-icons.json"
+      }
+    ]
+  }
+}
