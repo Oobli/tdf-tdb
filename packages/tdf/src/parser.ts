@@ -1,10 +1,10 @@
+
 import type { Document, Value } from "../../shared/src/types";
 import { FORMAT_VERSION } from "../../shared/src/constants";
 import { ParseError } from "../../shared/src/errors";
 import { markPlainObject } from "../../shared/src/type-guards";
 import { Lexer } from "./lexer";
 import type { Token } from "./tokens";
-import { isTypedValue, markPlainObject } from "../../shared/src/type-guards";
 
 export class Parser {
   private tokens: Token[];
@@ -179,8 +179,7 @@ export class Parser {
           typeof value !== "object" ||
           value === null ||
           Array.isArray(value) ||
-          value instanceof Uint8Array ||
-          "kind" in value
+          value instanceof Uint8Array
         ) {
           throw new ParseError(
             "@object requires an ordinary object",
@@ -188,8 +187,9 @@ export class Parser {
           );
         }
 
-        return markPlainObject(value as Record<string, unknown>) as
-  Record<string, Value>;
+        return markPlainObject(
+          value as Record<string, unknown>
+        ) as Record<string, Value>;
       }
 
       case "decimal": {
