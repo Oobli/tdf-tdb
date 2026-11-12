@@ -8,6 +8,7 @@ permissions:
 
 jobs:
   package:
+    name: Build and Package VSIX
     runs-on: ubuntu-latest
 
     steps:
@@ -16,14 +17,15 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
+
+      - name: Verify pnpm version
+        run: pnpm --version
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -48,3 +50,4 @@ jobs:
           name: tdf-language-support-v1.0.0
           path: packages/vscode/*.vsix
           if-no-files-found: error
+          retention-days: 14
