@@ -88,7 +88,10 @@
     "vscode:prepublish": "pnpm run build",
     "release:check": "node scripts/validate-release.mjs",
     "changelog:generate": "node scripts/generate-changelog.mjs",
-    "changelog:check": "node scripts/validate-changelog.mjs"
+    "changelog:check": "node scripts/validate-changelog.mjs",
+    "vsix:verify": "node scripts/verify-vsix.mjs",
+    "release:verify": "node scripts/verify-release.mjs"
+
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
