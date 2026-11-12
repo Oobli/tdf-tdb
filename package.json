@@ -1,3 +1,4 @@
+
 {
   "name": "tdf-tdb",
   "version": "1.0.0",
@@ -8,15 +9,14 @@
   "engines": {
     "node": ">=20"
   },
-  
-"scripts": {
-  "build": "pnpm --filter tdf-language-support run build",
-  "test": "vitest run",
-  "test:watch": "vitest",
-  "release:check": "pnpm --filter tdf-language-support run release:check",
-  "vscode:build": "pnpm --filter tdf-language-support run build"
-},
-
+  "scripts": {
+    "build": "pnpm --filter tdf-language-support run build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "release:check": "pnpm --filter tdf-language-support run release:check",
+    "vscode:build": "pnpm --filter tdf-language-support run build",
+    "vscode:test": "pnpm --filter tdf-language-support run test"
+  },
   "devDependencies": {
     "vitest": "^3.2.7"
   }
