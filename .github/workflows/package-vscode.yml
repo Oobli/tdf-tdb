@@ -37,8 +37,7 @@ jobs:
         run: pnpm build
 
       - name: Validate release
-        working-directory: packages/vscode
-        run: pnpm run release:check
+        run: pnpm -w run release:check
 
       - name: Package VSIX
         working-directory: packages/vscode
