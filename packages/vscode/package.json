@@ -85,7 +85,8 @@
   "scripts": {
     "build": "tsc -p .",
     "test": "vitest run",
-    "vscode:prepublish": "pnpm run build"
+    "vscode:prepublish": "pnpm run build",
+    "release:check": "node scripts/validate-release.mjs"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
