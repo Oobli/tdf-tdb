@@ -2,7 +2,10 @@
 import type { Document, Value } from "../../shared/src/types";
 import { FORMAT_VERSION } from "../../shared/src/constants";
 import { ParseError } from "../../shared/src/errors";
-import { markPlainObject } from "../../shared/src/type-guards";
+import {
+  markPlainObject,
+  isMarkedPlainObject
+} from "../../shared/src/type-guards";
 import { Lexer } from "./lexer";
 import type { Token } from "./tokens";
 
@@ -136,7 +139,7 @@ export class Parser {
 
     this.expect("rightBrace");
 
-    return result;
+    return markPlainObject(result);
   }
 
   private parseArray(): Value[] {
@@ -179,7 +182,8 @@ export class Parser {
           typeof value !== "object" ||
           value === null ||
           Array.isArray(value) ||
-          value instanceof Uint8Array
+          value instanceof Uint8Array ||
+          !isMarkedPlainObject(value)
         ) {
           throw new ParseError(
             "@object requires an ordinary object",
@@ -187,9 +191,7 @@ export class Parser {
           );
         }
 
-        return markPlainObject(
-          value as Record<string, unknown>
-        ) as Record<string, Value>;
+        return value as Record<string, Value>;
       }
 
       case "decimal": {
