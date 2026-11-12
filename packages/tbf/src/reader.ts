@@ -1,3 +1,4 @@
+import { DEFAULT_LIMITS } from "../../shared/src/constants";
 import { TBFError } from "../../shared/src/errors";
 
 export class ByteReader {
@@ -64,15 +65,29 @@ export class ByteReader {
 
   readString(): string {
     const length = this.readUint32();
+
+    // UTF-8 uses at most four bytes per Unicode code point.
+    if (length > DEFAULT_LIMITS.maxStringLength * 4) {
+      throw new TBFError("String is too long");
+    }
+
     const bytes = this.readBytes(length);
 
+    let value: string;
+
     try {
-      return new TextDecoder("utf-8", {
+      value = new TextDecoder("utf-8", {
         fatal: true
       }).decode(bytes);
     } catch {
       throw new TBFError("Invalid UTF-8 string");
     }
+
+    if (value.length > DEFAULT_LIMITS.maxStringLength) {
+      throw new TBFError("String is too long");
+    }
+
+    return value;
   }
 
   ensureFinished(): void {
