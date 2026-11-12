@@ -8,14 +8,15 @@
   "engines": {
     "node": ">=20"
   },
-  "scripts": {
-    "build": "pnpm --filter tdf-language-support run build",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "release:check": "pnpm --filter tdf-language-support run release:check",
-    "vscode:build": "pnpm --filter tdf-language-support run build",
-    "vscode:test": "pnpm --filter tdf-language-support run test"
-  },
+  
+"scripts": {
+  "build": "pnpm --filter tdf-language-support run build",
+  "test": "vitest run",
+  "test:watch": "vitest",
+  "release:check": "pnpm --filter tdf-language-support run release:check",
+  "vscode:build": "pnpm --filter tdf-language-support run build"
+},
+
   "devDependencies": {
     "vitest": "^3.2.7"
   }
