@@ -24,7 +24,7 @@ jobs:
           node-version: 22
           cache: pnpm
 
-      - name: Verify pnpm version
+      - name: Verify pnpm
         run: pnpm --version
 
       - name: Install dependencies
@@ -33,7 +33,7 @@ jobs:
       - name: Run tests
         run: pnpm test
 
-      - name: Build
+      - name: Build workspace
         run: pnpm build
 
       - name: Validate release
@@ -42,7 +42,7 @@ jobs:
 
       - name: Package VSIX
         working-directory: packages/vscode
-        run: pnpm dlx @vscode/vsce@4.0.2 package
+        run: pnpm dlx @vscode/vsce@4.1.0 package
 
       - name: Upload VSIX
         uses: actions/upload-artifact@v4
