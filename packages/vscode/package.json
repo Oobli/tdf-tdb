@@ -19,6 +19,7 @@
   ],
   "icon": "images/extension-icon.png",
   "main": "./dist/extension.js",
+  "browser": "./dist/web/extension.js",
   "contributes": {
     "languages": [
       {
@@ -27,9 +28,7 @@
           "TDF",
           "Typed Data Format"
         ],
-        "extensions": [
-          ".tdf"
-        ],
+        "extensions": [".tdf"],
         "configuration": "./language-configuration.json"
       },
       {
@@ -38,9 +37,7 @@
           "TBF",
           "Typed Binary Format"
         ],
-        "extensions": [
-          ".tbf"
-        ]
+        "extensions": [".tbf"]
       }
     ],
     "grammars": [
@@ -65,14 +62,16 @@
     ]
   },
   "scripts": {
-    "build": "tsc -p .",
+    "build": "tsc -p . && esbuild src/extension.ts --bundle --platform=browser --format=cjs --external:vscode --outfile=dist/web/extension.js",
     "vscode:prepublish": "pnpm run build",
-    "test": "vitest run"
+    "test": "vitest run",
+    "release:check": "node scripts/validate-release.mjs"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
     "@types/vscode": "^1.85.0",
     "typescript": "^5.7.0",
-    "vitest": "^3.2.7"
+    "vitest": "^3.2.7",
+    "esbuild": "^0.25.0"
   }
 }
