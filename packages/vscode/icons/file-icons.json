@@ -1,0 +1,14 @@
+{
+  "iconDefinitions": {
+    "_tdf": {
+      "iconPath": "./tdf.svg"
+    },
+    "_tbf": {
+      "iconPath": "./tbf.svg"
+    }
+  },
+  "fileExtensions": {
+    "tdf": "_tdf",
+    "tbf": "_tbf"
+  }
+}
