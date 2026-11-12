@@ -1,4 +1,3 @@
-
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
@@ -36,14 +35,22 @@ if (!manifest.engines?.vscode) {
   errors.push("Missing VS Code engine requirement.");
 }
 
-if (!manifest.main || !manifest.scripts?.build) {
-  errors.push("Missing extension entry point or build script.");
+if (!manifest.main || !manifest.browser || !manifest.scripts?.build) {
+  errors.push("Missing desktop entry point, browser entry point or build script.");
 }
 
 for (const file of required) {
   if (!existsSync(resolve(root, file))) {
     errors.push(`Missing required file: ${file}`);
   }
+}
+
+if (manifest.main && !existsSync(resolve(root, manifest.main))) {
+  errors.push(`Missing desktop build output: ${manifest.main}`);
+}
+
+if (manifest.browser && !existsSync(resolve(root, manifest.browser))) {
+  errors.push(`Missing browser build output: ${manifest.browser}`);
 }
 
 if (existsSync(resolve(root, "CHANGELOG.md"))) {
@@ -59,8 +66,14 @@ if (existsSync(resolve(root, "CHANGELOG.md"))) {
 
 if (errors.length) {
   console.error("Release validation failed:\n");
-  for (const error of errors) console.error(`- ${error}`);
+
+  for (const error of errors) {
+    console.error(`- ${error}`);
+  }
+
   process.exit(1);
 }
 
-console.log(`Release validation passed: ${manifest.version}`);
+console.log(
+  `Release validation passed: ${manifest.version} (Desktop + Web)`
+);
