@@ -12,14 +12,12 @@
     "Programming Languages",
     "Other"
   ],
-  "activationEvents": [
-    "onLanguage:tdf",
-    "onCommand:tdf.inspectTBF"
-  ],
   "main": "./dist/extension.js",
   "files": [
     "dist/**",
     "syntaxes/**",
+    "icons/**",
+    "images/**",
     "language-configuration.json"
   ],
   "contributes": {
@@ -48,6 +46,13 @@
         "command": "tdf.inspectTBF",
         "title": "TDF: Inspect TBF Header"
       }
+    ],
+    "iconThemes": [
+      {
+        "id": "tdf-file-icons",
+        "label": "TDF & TBF File Icons",
+        "path": "./icons/file-icons.json"
+      }
     ]
   },
   "scripts": {
@@ -59,18 +64,5 @@
     "@types/vscode": "^1.85.0",
     "typescript": "^5.7.0",
     "vitest": "^3.0.0"
-  }
-}
-
-{
-  "icon": "images/extension-icon.png",
-  "contributes": {
-    "iconThemes": [
-      {
-        "id": "tdf-file-icons",
-        "label": "TDF & TBF File Icons",
-        "path": "./icons/file-icons.json"
-      }
-    ]
   }
 }
