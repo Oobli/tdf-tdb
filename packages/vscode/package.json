@@ -14,12 +14,12 @@
   ],
   "main": "./dist/extension.js",
   "files": [
-    "dist/**",
-    "syntaxes/**",
-    "icons/**",
-    "images/**",
-    "language-configuration.json"
-  ],
+  "dist/**",
+  "syntaxes/**",
+  "icons/**",
+  "images/**",
+  "language-configuration.json"
+],
   "contributes": {
     "languages": [
       {
