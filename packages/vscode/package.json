@@ -2,7 +2,7 @@
   "name": "tdf-language-support",
   "displayName": "TDF & TBF Language Support",
   "description": "Syntax highlighting and language support for TDF and TBF files.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "spideythedev",
   "license": "MIT",
   "repository": {
@@ -28,7 +28,9 @@
           "TDF",
           "Typed Data Format"
         ],
-        "extensions": [".tdf"],
+        "extensions": [
+          ".tdf"
+        ],
         "configuration": "./language-configuration.json"
       },
       {
@@ -37,7 +39,9 @@
           "TBF",
           "Typed Binary Format"
         ],
-        "extensions": [".tbf"]
+        "extensions": [
+          ".tbf"
+        ]
       }
     ],
     "grammars": [
@@ -62,7 +66,7 @@
     ]
   },
   "scripts": {
-    "build": "tsc -p . && esbuild src/extension.ts --bundle --platform=browser --format=cjs --external:vscode --outfile=dist/web/extension.js",
+    "build": "tsc -p . && node scripts/build-web.mjs",
     "vscode:prepublish": "pnpm run build",
     "test": "vitest run",
     "release:check": "node scripts/validate-release.mjs"
@@ -70,8 +74,8 @@
   "devDependencies": {
     "@types/node": "^22.0.0",
     "@types/vscode": "^1.85.0",
+    "esbuild": "^0.25.12",
     "typescript": "^5.7.0",
-    "vitest": "^3.2.7",
-    "esbuild": "^0.25.0"
+    "vitest": "^3.2.7"
   }
 }
