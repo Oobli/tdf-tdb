@@ -117,3 +117,11 @@ All notable changes to TDF & TBF Language Support are documented here.
 - TDF and TBF custom file icon theme.
 - VS Code extension command registration.
 - Initial extension test suite.
+
+## [1.0.1] - 2026-11-14
+
+### Added
+- Added browser-compatible VS Code Web extension bundle.
+
+### Improved
+- Updated workspace dependency synchronization for reproducible CI builds.
